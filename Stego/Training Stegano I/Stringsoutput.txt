@@ -1,0 +1,6 @@
+Strings v2.53 - Search for ANSI and Unicode strings in binary images.
+Copyright (C) 1999-2016 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+BMf
+Look what the hex-edit revealed: passwd:steganoI
