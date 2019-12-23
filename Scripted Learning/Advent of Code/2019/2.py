@@ -16,19 +16,32 @@ def main():
     print(engine([2, 3, 0, 3, 99]))
     print(engine([2, 4, 4, 5, 99, 0]))
     print(engine([1, 1, 1, 4, 99, 5, 6, 0, 99]))
-    addrtProcess = engine(intcodeMemory)
+    partOne = engine(intcodeMemory)[0]
 
-    return addrtProcess[0]
+    partTwo = 0
+    for noun in range(100):
+        for verb in range(100):
+            intcodeMemory = fetchMemory("2in.txt")
+            intcodeMemory[1] = noun
+            intcodeMemory[2] = verb
+            out = engine(intcodeMemory)
+            if out[0] == 19690720:
+                partTwo = 100*noun + verb
+
+
+    return partOne, partTwo
 
 
 def fetchMemory(filename):
     # TODO clean this. One Liner?
     with open(filename) as f:
         program = [int(value) for value in f.read().split(',')]
+    f.close()
     return program
 
 
-def engine(intcode: list) -> list:
+def engine(intcodeIn: list) -> list:
+    intcode = intcodeIn
     terminate = False
     EIPAddr = 0
     acceptedInstructions = [1, 2, 99]
@@ -40,6 +53,7 @@ def engine(intcode: list) -> list:
                 intcode[EIPAddr], EIPAddr))
             print('Accepted Instructions {}'.format(acceptedInstructions))
             terminate = True
+            return intcode
         elif intcode[EIPAddr] == 1:
             parA = intcode[EIPAddr + 1]
             parB = intcode[EIPAddr + 2]
