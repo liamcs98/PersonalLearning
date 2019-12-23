@@ -1,11 +1,11 @@
 # https://adventofcode.com/2019/day/22
 
 
-def buildDeck(intSize):
-    return list(range(0, intSize))
+def buildDeck(Size: int) -> list:
+    return list(range(0, Size))
 
 
-def parseShuffleInstructions(deck, fileIn):
+def parseShuffleInstructions(deck: list, fileIn: str) -> list:
     file_obj = open(fileIn, "r")
     outDeck = deck
     for x in file_obj:
@@ -20,27 +20,27 @@ def parseShuffleInstructions(deck, fileIn):
     return outDeck
 
 
-def findCardLocation(deck, cardInt):
-    return deck.index(int(cardInt))
+def findCardLocation(deck: list, card: int) -> int:
+    return deck.index(int(card))
 
 
-def dealIntoNewStack(deck):
+def dealIntoNewStack(deck: list) -> list:
     return list(reversed(deck))
 
 
-def cutDeck(deck, cutInt):
+def cutDeck(deck: list, cut: int) -> list:
     outDeck = deck
-    if int(cutInt) > 0:
-        outDeck.extend(outDeck[:cutInt])
-        return outDeck[cutInt:]
-    elif int(cutInt) < 0:
-        outDeck = outDeck[cutInt:] + outDeck
-        return outDeck[:cutInt]
-    elif int(cutInt) == 0:
+    if cut > 0:
+        outDeck.extend(outDeck[:cut])
+        return outDeck[cut:]
+    elif cut < 0:
+        outDeck = outDeck[cut:] + outDeck
+        return outDeck[:cut]
+    elif cut == 0:
         return outDeck
 
 
-def dealWithIncrementN(deck, numb):
+def dealWithIncrementN(deck: list, numb: int) -> list:
     outDeck = [0] * len(deck)
     for i, x in enumerate(deck):
         outDeck[(i * numb) % len(deck)] = x
@@ -50,7 +50,7 @@ def dealWithIncrementN(deck, numb):
 if __name__ == '__main__':
     deck = parseShuffleInstructions(buildDeck(10007), '22in.txt')
     print(findCardLocation(deck, 2019))
-    # Memory Fun.g
+    # Memory Fun.
     # I lack a lot of math / number theory to make this scale.
     # https://www.reddit.com/r/adventofcode/comments/ee0rqi/2019_day_22_solutions/fbnkaju/
     # deck2 = parseShuffleInstructions(buildDeck(119315717514047), '22in.txt')
