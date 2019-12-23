@@ -1,5 +1,7 @@
 # https://adventofcode.com/2019/day/2
 
+import pprint
+
 
 def main():
     puzzleIn = fetchInput("2in.txt")
@@ -10,60 +12,41 @@ def main():
 
     puzzleIn[1] = 12
     puzzleIn[2] = 2
+    print(engine([1, 0, 0, 0, 99]))
+    print(engine([2, 3, 0, 3, 99]))
+    print(engine([2, 4, 4, 5, 99, 0]))
+    print(engine([1, 1, 1, 4, 99, 5, 6, 0, 99]))
     postProcess = engine(puzzleIn)
 
     return postProcess[0]
 
 
 def fetchInput(filename):
-    # TODO clean this
+    # TODO clean this. One Liner?
     with open(filename) as f:
         program = [int(value) for value in f.read().split(',')]
     return program
 
 
-def engine(inArray):
-    intcode = inArray
-    position = 0
+def engine(intcode: list) -> list:
     terminate = False
-
-    # Add len checking of pos and array catch error
-    print(intcode)
+    pos = 0
+    
     while terminate != True:
-        # print(position)
-        # print(intcode[position])
-        # print(intcode[position + 1])
-        # print(intcode[position + 2])
-        # print(intcode[position + 3])
-
-        if intcode[position] == 99:
+        if intcode[pos] not in [1,2,99]:
+            print('Unknown opcode {} at {}. Terminating'.format(intcode[pos], pos))
             terminate = True
-        elif intcode[position] == 1:
-            s = intcode[position + 1] + intcode[position + 2]
-            # print("Sum {}".format(s))
-            # print("prev {}".format(intcode[position + 3]))
-            intcode[position + 3] = s
-            # print("after {}".format(intcode[position + 3]))
-            position += 4
-        elif intcode[position] == 2:
-            s = intcode[position + 1] * intcode[position + 2]
-            # print("multi {}".format(s))
-            # print("prev {}".format(intcode[position + 3]))
-            intcode[position + 3] = s
-            # print("after {}".format(intcode[position + 3]))
-            position += 4
-        else:
-            print("Unknown opcode {0} at position {1:d}.".format(
-                intcode[position], position))
+        elif intcode[pos] == 1:
+            intcode[intcode[pos + 3]] = intcode[intcode[pos + 1]] + intcode[intcode[pos + 2]]
+            pos += 4
+        elif intcode[pos] == 2:
+            intcode[intcode[pos + 3]] = intcode[intcode[pos + 1]] * intcode[intcode[pos + 2]]
+            pos += 4
+        elif intcode[pos] == 99:
             terminate = True
-
-        # print("-" * 8)
-    print("-" * 8)
-    print(intcode)
-    print("-" * 8)
+            return intcode
 
     return intcode
-
 
 if __name__ == '__main__':
     print(main())
